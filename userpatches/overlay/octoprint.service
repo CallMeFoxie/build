@@ -1,0 +1,13 @@
+[Unit]
+Description=OctoPrint
+After=network.target
+
+[Service]
+ExecStart=/opt/octoprint/run
+Restart=always
+RestartSec=10
+User=octoprint
+Group=octoprint
+
+[Install]
+WantedBy=default.target
