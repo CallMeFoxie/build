@@ -68,6 +68,9 @@ OctoPrint() {
   for module in $OCTOPRINT_PLUGINS; do
     InstallOctoprintPlugin $module
   done
+  cp /tmp/overlay/sudoers /etc/sudoers
+  chmod 0440 /etc/sudoers
+  chown root:root /etc/sudoers
 }
 
 InstallOctoprintPlugin() {
