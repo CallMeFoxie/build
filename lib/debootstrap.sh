@@ -459,7 +459,8 @@ prepare_partitions()
 		[[ $ROOTFS_TYPE == btrfs ]] && local fscreateopt="-o compress-force=zlib"
 		mount ${fscreateopt} $rootdevice $MOUNT/
     mkdir -p $MOUNT/home/octoprint
-    mount -o uid=999,gid=999 $datadevice $MOUNT/home/octoprint
+    mount $datadevice $MOUNT/home/octoprint
+    chown -R 999:999 /home/octoprint
 		# create fstab (and crypttab) entry
 		if [[ $CRYPTROOT_ENABLE == yes ]]; then
 			# map the LUKS container partition via its UUID to be the 'cryptroot' device
@@ -480,6 +481,7 @@ prepare_partitions()
 	fi
 	[[ $ROOTFS_TYPE == nfs ]] && echo "/dev/nfs / nfs defaults 0 0" >> $SDCARD/etc/fstab
 	echo "tmpfs /tmp tmpfs defaults,nosuid 0 0" >> $SDCARD/etc/fstab
+  echo "/dev/mmcblk0p2 /home/octoprint ext4 defaults,noatime,nodiratime,commit=600,errors=remount-ro 0 2" >> $SDCARD/etc/fstab
 
 	# stage: adjust boot script or boot environment
 	if [[ -f $SDCARD/boot/armbianEnv.txt ]]; then

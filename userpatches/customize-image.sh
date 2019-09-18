@@ -59,8 +59,9 @@ OctoPrint() {
   wget https://github.com/jacksonliam/mjpg-streamer/archive/master.tar.gz -O /dev/stdout | tar xvpz -C /usr/src/
   (cd /usr/src/mjpg-streamer-master/mjpg-streamer-experimental && cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr . && make -j4 && make install)
   cp /usr/src/mjpg-streamer-master/mjpg-streamer-experimental/mjpg_streamer@.service /lib/systemd/system/mjpg_streamer@.service
+  ln -s /lib/systemd/system/mjpg_streamer@.service /etc/systemd/system/multi-user.target.wants/mjpg_streamer@video0.service
   rm -rf /usr/src/mjpg-streamer-master
-  echo "/dev/mmcblk0p2 /home/octoprint ext4 defaults,noatime,nodiratime,commit=600,errors=remount-ro,uid=999,gid=999 0 2" >> /etc/fstab
+  echo "/dev/mmcblk0p2 /home/octoprint ext4 defaults,noatime,nodiratime,commit=600,errors=remount-ro 0 2" >> /etc/fstab
   useradd ashley -m -u 1000 -G sudo
   mkdir /home/ashley/.ssh/
   cp /tmp/overlay/id_ed25519.pub /home/ashley/.ssh/id_ed25519.pub
